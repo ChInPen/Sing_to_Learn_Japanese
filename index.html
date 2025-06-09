@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./Bootstrap/bootstrap-5.0.0-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="./Bootstrap/bootstrap-5.0.0-dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+  <title>唱歌學日語</title>
+</head>
+
+<body>
+  <!-- header -->
+  <div id="header-placeholder"></div>
+  <!-- 輪播圖 -->
+  <div class="container my-5 card-container">
+    <h1>近期更新</h1>
+    <div class="animation" id="songCards">
+    </div>
+  </div>
+  <!-- 最新歌曲清單 -->
+  <div class="container">
+    <h1>最新歌曲</h1>
+    <div class="music-carousel">
+      <button class="scroll-btn left" onclick="scrollMusicList(-1)">&#10094;</button>
+      <div class="music-scroller" id="hotSongsScroller"></div>
+      <button class="scroll-btn right" onclick="scrollMusicList(1)">&#10095;</button>
+    </div>
+  </div>
+  <!-- 更多歌曲 -->
+  <div class="container">
+    <h1>更多歌曲</h1>
+    <div class="grid-container" id="moreSong">
+    </div>
+  </div>
+  <!-- footer -->
+  <div id="footer-placeholder"></div>
+  <!-- 插入header跟footer -->
+  <script src="./features/loadHeaderFooter.js"></script>
+</body>
+<script>
+  // 輪播圖
+  const songs = [
+    { title: 'Pretender', artist: 'Official髭男dism', img: "./img/music/Official髭男dism-Pretender.jpg", link: "./song/Pretender.html" },
+    { title: "前前前世", artist: "RADWIMPS", img: "./img/music/RADWIMPS-前前前世.jpg", link: "" },
+    { title: "晚餐歌", artist: "tuki", img: "./img/music/tuki-晚餐歌.jpg", link: "./song/晚餐歌.html" },
+    { title: "怪物", artist: "Yoasobi", img: "./img/music/Yoasobi-怪物.jpg", link: "./song/怪物.html" },
+    { title: "灰色と青", artist: "米津玄師", img: "./img/music/米津玄師-灰色と青.jpg", link: "" },
+    { title: 'Pretender', artist: 'Official髭男dism', img: "./img/music/Official髭男dism-Pretender.jpg", link: "./song/Pretender.html" },
+    { title: "前前前世", artist: "RADWIMPS", img: "./img/music/RADWIMPS-前前前世.jpg", link: "" },
+    { title: "晚餐歌", artist: "tuki", img: "./img/music/tuki-晚餐歌.jpg", link: "./song/晚餐歌.html" },
+    { title: "怪物", artist: "Yoasobi", img: "./img/music/Yoasobi-怪物.jpg", link: "./song/怪物.html" },
+    { title: "灰色と青", artist: "米津玄師", img: "./img/music/米津玄師-灰色と青.jpg", link: "" }
+  ]
+  const songCards = document.getElementById("songCards")
+  songs.forEach(song => {
+    const card = `
+    <div class="flip-card">
+        <div class="flip-card-inner">
+          <!-- 卡片正面 -->
+          <div class="flip-card-front">
+            <img src="${song.img}">
+          </div>
+          <!-- 卡片背面 -->
+          <a href="${song.link}" class="flip-card-back">
+            <p style="font-size: 40px;">${song.title}</p>
+            <p>${song.artist}</p>
+          </a>
+        </div>
+      </div>
+    `;
+    songCards.innerHTML += card
+  })
+  // 熱播歌曲重複區塊
+  const hotSongs = [
+    { title: "Bling-Bang-Bang-Born", artist: "Creepy Nuts", img: "./img/music/Creepy Nuts-Bling-Bang-Bang-Born.jpg", link: "#" },
+    { title: "前前前世", artist: "RADWIMPS", img: "./img/music/RADWIMPS-前前前世.jpg", link: "#" },
+    { title: "Lemon", artist: "米津玄師", img: "./img/music/米津玄師-Lemon.jpg", link: "#" },
+    { title: "Pretender", artist: "Official髭男dism", img: "./img/music/Official髭男dism-Pretender.jpg", link: "./歌曲/Pretender.html" },
+    { title: "Idol", artist: "Yoasobi", img: "./img/music/Yoasobi-Idol.png", link: "#" },
+    { title: "灰色と青", artist: "米津玄師", img: "./img/music/米津玄師-灰色と青.jpg", link: "#" },
+    { title: "晚餐歌", artist: "tuki", img: "./img/music/tuki-晚餐歌.jpg", link: "./歌曲/晚餐歌.html" },
+    { title: "はいよろこんで", artist: "Kocchi no Kento", img: "./img/music/Kocchi no Kento-はいよろこんで.jpg", link: "#" },
+    { title: "怪物", artist: "Yoasobi", img: "./img/music/Yoasobi-怪物.jpg", link: "./歌曲/怪物.html" },
+    { title: "愛の賞味期限", artist: "tuki", img: "./img/music/tuki-愛の賞味期限.jpg", link: "#" }
+  ]
+
+  function renderHotSongs(songs) {
+    const scroller = document.getElementById("hotSongsScroller");
+    const chunkSize = 3;
+    let html = "";
+
+    for (let i = 0; i < songs.length; i += chunkSize) {
+      const group = songs.slice(i, i + chunkSize);
+      html += `<div class="music-group">`;
+      group.forEach(song => {
+        html += `
+        <a class="music-item d-flex align-items-center" href="${song.link}">
+          <img src="${song.img}" alt="音樂封面">
+          <div class="info">
+            <div class="title">${song.title}</div>
+            <div class="artist">${song.artist}</div>
+          </div>
+        </a>
+      `;
+      });
+      html += `</div>`;
+    }
+
+    scroller.innerHTML = html;
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    renderHotSongs(hotSongs);
+  });
+
+  // 熱播歌曲按鈕(螢幕滑動)
+  function scrollMusicList(direction) {
+    const scroller = document.querySelector('.music-scroller');
+    const scrollAmount = 300;
+    scroller.scrollTo({
+      left: scroller.scrollLeft + direction * scrollAmount,
+      behavior: 'smooth'
+    });
+  }
+
+  // 更多歌曲
+  const moreSongs = [
+    { title: "晚餐歌", artist: "tuki", img: "./img/music/tuki-晚餐歌.jpg", link: "./song/晚餐歌.html" },
+    { title: "愛の賞味期限", artist: "tuki", img: "./img/music/tuki-愛の賞味期限.jpg", link: "" },
+    { title: "Bling-Bang-Bang-Born", artist: "Creepy Nuts", img: "./img/music/Creepy Nuts-Bling-Bang-Bang-Born.jpg", link: "" },
+    { title: "前前前世", artist: "RADWIMPS", img: "./img/music/RADWIMPS-前前前世.jpg", link: "" },
+    { title: "Idol", artist: "Yoasobi", img: "./img/music/Yoasobi-Idol.png", link: "" },
+    { title: "Lemon", artist: "米津玄師", img: "./img/music/米津玄師-Lemon.jpg", link: "" },
+    { title: "Pretender", artist: "Official髭男dism", img: "./img/music/Official髭男dism-Pretender.jpg", link: "./song/Pretender.html" },
+    { title: "怪物", artist: "Yoasobi", img: "./img/music/Yoasobi-怪物.jpg", link: "./song/怪物.html" },
+    { title: "灰色と青", artist: "米津玄師", img: "./img/music/米津玄師-灰色と青.jpg", link: "" },
+    { title: "はいよろこんで", artist: "Kocchi no Kento", img: "./img/music/Kocchi no Kento-はいよろこんで.jpg", link: "" }
+  ]
+  const moreSong = document.getElementById("moreSong")
+  moreSongs.forEach(moreSongs => {
+    const song = `
+    <a href="${moreSongs.link}" class="cards">
+        <div style="overflow: hidden;"><img src="${moreSongs.img}" alt="Cover"></div>
+        <div class="info">
+          <div class="title">${moreSongs.title}</div>
+          <div class="artist">${moreSongs.artist}</div>
+        </div>
+    </a>
+    `
+    moreSong.innerHTML += song
+  })
+
+  // 打亂更多歌曲
+  document.addEventListener("DOMContentLoaded", function () {
+    const container = document.querySelector('.grid-container');
+    const cards = Array.from(container.children);
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    cards.forEach(card => container.appendChild(card));
+  });
+</script>
+
+</html>

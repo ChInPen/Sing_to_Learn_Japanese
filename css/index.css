@@ -1,0 +1,482 @@
+ body {
+     background-color: #f8f9fa;
+ }
+
+ /* 輪播圖CSS */
+ .card-container {
+     position: relative;
+     overflow: hidden;
+ }
+
+ /* 動畫效果 */
+ .animation {
+     height: auto;
+     width: 200%;
+     display: flex;
+     animation: scroll 10S linear infinite;
+
+     &:hover {
+         animation-play-state: paused;
+     }
+ }
+
+ @keyframes scroll {
+     0% {
+         transform: translateX(0%);
+     }
+
+     100% {
+         transform: translateX(-50%);
+     }
+
+ }
+
+ /* 翻轉卡片內容 */
+ .flip-card {
+     height: auto;
+     width: 20%;
+     perspective: 1000px;
+     display: inline-block;
+     vertical-align: top;
+ }
+
+ .flip-card-inner {
+     height: auto;
+     position: relative;
+     transition: transform 0.6s;
+     transform-style: preserve-3d;
+ }
+
+ /* 滑鼠懸停時翻轉 */
+ .flip-card:hover .flip-card-inner {
+     transform: rotateY(180deg);
+ }
+
+ /* 卡片正面 & 背面 */
+ .flip-card-front,
+ .flip-card-back {
+     backface-visibility: hidden;
+ }
+
+ /* 正面樣式 */
+ .flip-card-front img {
+     display: block;
+     width: 100%;
+     height: auto;
+     padding: 1%;
+ }
+
+ /* 背面樣式 */
+ .flip-card-back {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     backface-visibility: hidden;
+     transform: rotateY(180deg);
+     background: url("../img/music/背景音符圖.jpg") no-repeat center center;
+     background-size: cover;
+     color: white;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+     transition: opacity 0.5s ease;
+     text-decoration: none;
+ }
+
+ .flip-card-back::before {
+     content: "";
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.6);
+     z-index: 1;
+ }
+
+ .flip-card-back p {
+     position: relative;
+     z-index: 2;
+     margin: 0;
+ }
+
+ .flip-card-back:hover p,
+ .flip-card-back:hover a {
+     color: #FF9900;
+ }
+
+ .flip-card-back .overlay {
+     background: rgba(0, 0, 0, 0.3);
+     padding: 20px;
+     border-radius: 8px;
+     text-align: center;
+ }
+
+ /* 熱播歌曲 */
+ .container {
+     max-width: 1200px;
+     margin: 0 auto;
+     padding: 20px;
+ }
+
+ .music-carousel {
+     position: relative;
+     overflow: hidden;
+     margin-top: 10px;
+ }
+
+ .music-scroller {
+     display: flex;
+     gap: 20px;
+     overflow-x: auto;
+     scroll-behavior: smooth;
+     padding: 10px 0;
+     white-space: nowrap;
+ }
+
+ .music-scroller::-webkit-scrollbar {
+     display: none;
+ }
+
+ .music-group {
+     display: flex;
+     flex-direction: column;
+     gap: 30px;
+ }
+
+ /* 單首歌的外觀 */
+ .music-item {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     padding: 8px;
+     border-bottom: 1px solid #ddd;
+     width: 500px;
+     text-decoration: none;
+     color: inherit;
+ }
+
+ .music-item img {
+     width: 80px;
+     height: 80px;
+     object-fit: cover;
+     border-radius: 5px;
+     margin-right: 15px;
+ }
+
+ .info .title {
+     font-size: 28px;
+     font-weight: bold;
+ }
+
+ .info .artist {
+     font-size: 25px;
+     color: gray;
+ }
+
+ /* 左右箭頭按鈕 */
+ .scroll-btn {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     background: rgba(0, 0, 0, 0.2);
+     color: white;
+     border: none;
+     cursor: pointer;
+     padding: 5px 10px;
+     font-size: 18px;
+     z-index: 10;
+ }
+
+ .scroll-btn.left {
+     left: 0;
+ }
+
+ .scroll-btn.right {
+     right: 0;
+ }
+
+ .scroll-btn:hover {
+     background: rgba(0, 0, 0, 0.4);
+ }
+
+
+ /* 更多歌曲 */
+ .grid-container {
+     display: grid;
+     gap: 20px;
+     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+     padding: 20px;
+     max-width: 1200px;
+     margin: 0 auto;
+ }
+
+ .card {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     width: 100%;
+     height: 300px;
+     border: 1px solid #ccc;
+     border-radius: 6px;
+     background-color: #fff;
+     text-align: center;
+     position: relative;
+     overflow: hidden;
+     text-decoration: none;
+     color: inherit;
+     transition: box-shadow 0.3s;
+ }
+
+ .card img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     transition: transform 1s ease;
+ }
+
+ .card .info {
+     height: 90px;
+ }
+
+ .card .title {
+     font-size: 19px;
+     font-weight: bold;
+     margin-bottom: 5px;
+ }
+
+ .card .artist {
+     font-size: 15px;
+     color: #555;
+ }
+
+ .card {
+     text-decoration: none;
+     color: inherit;
+     position: relative;
+     overflow: hidden;
+ }
+
+ .card:hover {
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+ }
+
+ .card:hover img {
+     transform: scale(1.2);
+ }
+
+ /* 頁尾 */
+ .footer {
+     background-color: #2f3a45;
+     color: #fff;
+     padding: 20px;
+     font-size: 14px;
+ }
+
+ .footer-top {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+ }
+
+ .footer-left {
+     display: flex;
+     align-items: center;
+ }
+
+ .like-btn {
+     background: none;
+     border: 1px solid #fff;
+     color: #fff;
+     padding: 5px 10px;
+     border-radius: 4px;
+     cursor: pointer;
+ }
+
+ .like-btn:hover {
+     background: #fff;
+     color: #2f3a45;
+ }
+
+ .footer-links {
+     list-style: none;
+     display: flex;
+     gap: 15px;
+     margin: 0;
+     padding: 0;
+ }
+
+ .footer-links li a {
+     color: #fff;
+     text-decoration: none;
+     transition: color 0.2s;
+ }
+
+ .footer-links li a:hover {
+     color: #ffd700;
+ }
+
+ .footer-right {
+     display: flex;
+     align-items: center;
+ }
+
+ .positive-icon {
+     width: 80px;
+     height: auto;
+ }
+
+ .footer-middle {
+     text-align: center;
+     margin: 20px 0;
+ }
+
+ .scroll-top-btn {
+     display: inline-block;
+     width: 40px;
+     height: 40px;
+     line-height: 40px;
+     background-color: #fff;
+     color: #2f3a45;
+     border-radius: 50%;
+     text-align: center;
+     font-size: 18px;
+     text-decoration: none;
+ }
+
+ .scroll-top-btn:hover {
+     background-color: #ffd700;
+     color: #2f3a45;
+ }
+
+ .footer-bottom {
+     text-align: center;
+     font-size: 12px;
+     border-top: 1px solid #444;
+     margin-top: 10px;
+     padding-top: 10px;
+ }
+
+ /*彈跳視窗 */
+ .custom-modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgb(0, 0, 0);
+     background-color: rgba(0, 0, 0, 0.4);
+ }
+
+ .modal-content {
+     background-color: #fefefe;
+     margin: 15% auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 80%;
+     margin: 100px auto;
+     text-align: center;
+ }
+
+ /* 登入按鈕 */
+ .custom-backdrop {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.5);
+     display: none;
+     align-items: center;
+     justify-content: center;
+     z-index: 1050;
+ }
+
+ /* 自訂 Modal 內容 */
+ .custom-modal2 {
+     background: #fff;
+     padding: 20px;
+     border-radius: 8px;
+     max-width: 400px;
+     width: 90%;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+     opacity: 0;
+     transform: translateY(-20px);
+     transition: opacity 0.3s ease, transform 0.3s ease;
+ }
+
+ .custom-backdrop.active {
+     display: flex;
+ }
+
+ .custom-modal2.active {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .custom-modal2 .close-btn {
+     float: right;
+     background: transparent;
+     border: none;
+     font-size: 20px;
+     cursor: pointer;
+ }
+
+ .cads {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     min-width: 0;
+     word-wrap: break-word;
+     background-color: #fff;
+     background-clip: border-box;
+     border: 1px solid rgba(0, 0, 0, 0.125);
+     border-radius: 0.25rem;
+ }
+
+ .cards {
+     display: flex;
+     flex-direction: column;
+     background-color: #fff;
+     border: 1px solid #ddd;
+     border-radius: 0.25rem;
+     text-decoration: none;
+     color: inherit;
+     overflow: hidden;
+     transition: box-shadow 0.3s ease;
+ }
+
+ .cards:hover {
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ }
+
+ .cards img {
+     width: 100%;
+     display: block;
+     transition: transform 0.5s ease;
+ }
+
+ .cards:hover img {
+     transform: scale(1.1);
+ }
+
+ .cards .info {
+     padding: 10px;
+ }
+
+ .cards .title {
+     font-size: 1.1rem;
+     font-weight: bold;
+     margin-bottom: 0.5rem;
+ }
+
+ .cards .artist {
+     font-size: 0.9rem;
+     color: #555;
+ }

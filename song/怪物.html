@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Bootstrap/bootstrap-5.0.0-dist/css/bootstrap.css">
+    <script src="../Bootstrap/bootstrap-5.0.0-dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>怪物</title>
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+            width: 100%;
+            background-color: #F0F4F8;
+        }
+
+        /* 主內容攔 */
+        .page-layout {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* 主要內容區 */
+        .content {
+            flex: 14;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 50px;
+        }
+
+        /* 歌曲介紹 */
+        .explain {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            color: #333333;
+            border: 1px solid black;
+            font-size: 30px;
+        }
+
+        /* 影片容器 */
+        .video-container {
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+            width: 90%;
+            top: 25px;
+        }
+
+        /* 影片樣式 */
+        video {
+            width: 100%;
+        }
+
+        /* 影片浮動字幕樣式 */
+        #subtitle .j-text {
+            pointer-events: none;
+            position: absolute;
+            bottom: 15px;
+            text-align: center;
+            justify-content: center;
+            font-size: 35px;
+            color: white;
+            border-radius: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            background-color: black;
+        }
+
+        #subtitle2 .c-text {
+            pointer-events: none;
+            position: absolute;
+            top: 30px;
+            text-align: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            border-radius: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        #subtitle ruby {
+            display: inline-block;
+            position: relative;
+        }
+
+        #subtitle rt {
+            font-size: 0.5em;
+            color: #ffffffee;
+            font-weight: normal;
+            position: absolute;
+            top: -1.2em;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+
+
+        /* 歌詞區塊 */
+        #lyrics {
+            display: block;
+            align-items: flex-start;
+            width: 90%;
+        }
+
+        .lyrics-s {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            text-align: left;
+            height: 140px;
+            margin-top: 50px;
+        }
+
+        /* 歌詞順序 */
+        .Numerical-order {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            background-color: #FFD43B;
+            border-radius: 50%;
+            font-size: 45px;
+            font-weight: bold;
+            margin: auto;
+            margin-right: 10px;
+            color: #FFFFFF;
+        }
+
+
+        /* 歌詞 */
+        .text {
+            overflow: hidden;
+            padding: 10px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            color: #333333;
+        }
+
+        .c-text {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #00BFAE;
+            width: 80%;
+        }
+
+        .j-text {
+            display: flex;
+            font-size: 35px;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .text>div {
+            display: flex;
+        }
+
+        /* 焦點變色 */
+        .Numerical-order.active {
+            color: #ffffff;
+            background-color: #003366;
+        }
+
+        .text.active-1 {
+            background-color: #E0E0E0;
+        }
+
+
+        /* 重複播放按鈕 */
+        .re {
+            color: #FFD43B;
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+
+        }
+
+        /* 撥放按鈕 */
+        .pa {
+            color: #FFD43B;
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+
+        }
+
+        .re,
+        .pa {
+            max-width: 50px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* 影片按鈕 */
+        #icons {
+            display: flex;
+            font-size: 70px;
+            gap: 10px;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin-top: 10px;
+            padding: 10px;
+            color: #FFD43B;
+        }
+
+        /* 左側內容攔 */
+        .side {
+            flex: 3;
+            padding: 0px 5px;
+            padding-top: 5px;
+            padding-right: 1%;
+        }
+
+        .side-1 {
+            display: flex;
+            background-color: #ECF0F1;
+            border-bottom: 1px solid black;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .side-1:hover {
+            background-color: black;
+            color: aliceblue;
+
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .side img {
+            width: 30%;
+            margin: 10px;
+        }
+
+        a img {
+            width: 30%;
+            margin: 10px;
+        }
+
+        ruby {
+            display: inline-block;
+            position: relative;
+        }
+
+        rt {
+            font-size: 0.5em;
+            color: #484747;
+            font-weight: normal;
+            position: absolute;
+            top: -1em;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .click {
+            color: #333333
+        }
+
+        @media(max-width:500px) {
+            .content {
+                flex: 1;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 0.2;
+            }
+
+            .c-text {
+                font-size: 10px;
+                margin-bottom: 0px;
+            }
+
+            .j-text {
+                font-size: 10px;
+                margin-top: 18px;
+            }
+
+            .Numerical-order {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+
+            .lyrics-s {
+                margin-top: 5px;
+                height: 100px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 10px;
+            }
+
+            .explain>h1 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 20px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+        }
+
+        @media(min-width: 500px) and (max-width: 900px) {
+            .content {
+                flex: content;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 0.5;
+            }
+
+            .c-text {
+                font-size: 10px;
+                margin-bottom: 0px;
+                margin-left: 10px;
+            }
+
+            .j-text {
+                font-size: 13px;
+                margin-top: 18px;
+                margin-left: 10px;
+            }
+
+            .Numerical-order {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+
+            .lyrics-s {
+                margin-top: 5px;
+                height: 100px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 10px;
+            }
+
+            .explain>h1 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 20px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+        }
+
+        @media(min-width: 900px) and (max-width: 1400px) {
+            .content {
+                flex: content;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 1px;
+            }
+
+            .c-text {
+                font-size: 20px;
+                margin-bottom: 15px;
+                margin-left: 15px;
+            }
+
+            .j-text {
+                font-size: 22px;
+                margin-top: 20px;
+                margin-left: 15px;
+            }
+
+            .Numerical-order {
+                width: 45px;
+                height: 45px;
+                font-size: 30px;
+            }
+
+            .lyrics-s {
+                margin-top: 30px;
+                height: 120px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 15px;
+            }
+
+            .explain>h1 {
+                font-size: 25px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 30px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 30px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 20px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 20px;
+                border-radius: 5px;
+            }
+
+        }
+
+        @media(min-width: 1400px) and (max-width: 1600px) {
+            .c-text {
+                font-size: 25px;
+                margin-bottom: 15px;
+                margin-left: 15px;
+            }
+
+            .j-text {
+                font-size: 27px;
+                margin-top: 20px;
+                margin-left: 15px;
+            }
+
+            .explain {
+                font-size: 15px;
+            }
+
+            .explain>h1 {
+                font-size: 35px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 30px !important;
+                margin-top: 5px;
+            }
+
+            .side-1 {
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+
+            div>h3 {
+                font-size: 20px
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 30px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 30px;
+                border-radius: 5px;
+            }
+        }
+
+        /* 頁尾 */
+        .footer {
+            background-color: #2f3a45;
+            color: #fff;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .like-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .like-btn:hover {
+            background: #fff;
+            color: #2f3a45;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-links li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links li a:hover {
+            color: #ffd700;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .positive-icon {
+            width: 80px;
+            height: auto;
+        }
+
+        .footer-middle {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .scroll-top-btn {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #fff;
+            color: #2f3a45;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #ffd700;
+            color: #2f3a45;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #444;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        /* 頁尾結束 */
+
+        /* w3school 彈跳視窗 */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        /* w3結束 */
+
+
+        /* 登入按鈕 */
+        .custom-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+        }
+
+        /* 自訂 Modal 內容 */
+        .custom-modal2 {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* 顯示時 */
+        .custom-backdrop.active {
+            display: flex;
+        }
+
+        .custom-modal2.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 關閉按鈕 */
+        .custom-modal2 .close-btn {
+            float: right;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* 登入按鈕結束 */
+        .btstop:hover,
+        .btright:hover,
+        .btleft:hover,
+        .pa:hover {
+            cursor: pointer;
+            color: #00BFAE;
+        }
+
+        .btrepeat {
+            cursor: pointer;
+        }
+
+        .click2:hover {
+            color: #00BFAE;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+        <div class="container">
+            <!-- 左側Logo -->
+            <a class="navbar-brand" href="../主頁(請開啟).html">
+                <img src="../img/icon/logo.png" style="width: 80px;">
+            </a>
+
+            <!-- 選單按鈕（小螢幕） -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 右側選單項目 -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <!-- <li class="nav-item">
+                <a class="nav-link" href="#">歌手列表 <i class="fas fa-music"></i></a>
+              </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" id="myBtn2" href="#">日語學習
+                            <!-- w3school 彈跳視窗 -->
+                            <div id="myModal2" class="custom-modal">
+                                <div class="modal-content">
+                                    <h1>敬請期待！</h1>
+                                </div>
+                            </div>
+                            <!-- w3school 彈跳視窗結束 -->
+                            <i class="fas fa-book-open"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="myBtn" href="#">訊息公告
+                            <!-- w3school 彈跳視窗 -->
+                            <div id="myModal1" class="custom-modal">
+                                <div class="modal-content">
+                                    <h1>目前歌曲還在陸續更新中</h1>
+                                    <h1>有任何問題都歡迎在錯誤回報那邊傳送訊息</h1>
+                                    <h1>感謝各位的配合！</h1>
+                                </div>
+                            </div>
+                            <!-- w3school 彈跳視窗結束 -->
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-auto">
+                    <input class="form-control me-2" type="search" placeholder="搜尋" aria-label="搜尋">
+                    <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../功能/留言板.html">錯誤回報
+                            <i class="fa-solid fa-question"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="openModalBtn">登入 <i class="fa-solid fa-user"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主內容區域 -->
+    <div class="page-layout">
+        <!-- 主要內容 -->
+        <div class="content">
+            <!-- 影片跟字幕 -->
+            <div class="video-container">
+                <video controls loop controlslist="nodownload nofullscreen noremoteplayback" id="videoPlayer">
+                    <source src="../video/YOASOBI-怪物Official .mp4">
+                </video>
+                <div id="subtitle"></div>
+                <div id="subtitle2" style="display: flex;"></div>
+            </div>
+            <div>
+                <!-- 播放按鈕設定 -->
+                <div id="icons">
+                    <span class="btleft"><i class="fa-solid fa-circle-left"></i></span>
+                    <span class="btstop"><i class="fa-solid fa-circle-stop"></i></span>
+                    <span class="btright"><i class="fa-solid fa-circle-right"></i></span>
+                    <span class="btrepeat click2"><i class="fa-solid fa-arrows-rotate"></i></span>
+                </div>
+            </div>
+            <!-- 歌曲跟作者 -->
+            <div class="explain">
+                <h1 style="font-size: 60px;">怪物</h1>
+                <h4 style="font-size: 40px;">YOASOBI</h4>
+                <div style="display: flex; gap: 25px;">
+                    <p>作詞:Ayase</p>
+                    <p>編曲:Ayase</p>
+                </div>
+                <div style="display: flex; gap: 25px;">
+                    <p>作曲:Ayase</p>
+                    <p>發行日期:2021/01/06</p>
+                </div>
+                <p>影片來源:
+                    <a
+                        href="https://www.youtube.com/watch?v=dy90tA3TT1c">https://www.youtube.com/watch?v=dy90tA3TT1c</a>
+                </p>
+            </div>
+            <!-- 歌詞區塊 -->
+            <div id="lyrics">
+                <div class="lyrics-s">
+                    <p class="Numerical-order">1</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">素晴らしき世界に今日も乾杯 街に飛び交う笑い声も</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">今天也向美好的世界乾杯 街上交織的歡笑聲</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">2</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">見て見ぬフリしてるだけの作りもんさ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">也只不過是為了視而不見的產品吧</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">3</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">気が触れそうだ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">就快要瘋了</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">4</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">クラクラするほどの良い匂いが ツンと刺した鼻の奥</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">讓人頭昏眼花的香氣 唰的刺進鼻腔深處</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">5</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">目を覚ます本能のまま 今日は誰の番だ?</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">服從甦醒的本能 今天該輪到誰呢?</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">6</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">この世界で何が出来るのか 僕には何が出来るのか</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">在這個世界能做到什麼 我又能做些什麼</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">7</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">ただその真っ黒な目から 涙溢れ落ちないように</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">只為了讓那雙深黑色眼睛 不要掉下眼淚</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">8</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">願う未来に何度でもずっと 喰らいつく</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">緊咬住希望中的未來 無論多少次都不要放開</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">9</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">この間違いだらけの世界の中 君には笑ってほしいから</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">因為在這個錯漏百出的世界 我只希望你能露出笑容</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">10</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">もう誰も傷付けない 強く強くなりたいんだよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">已經不想再傷害誰 想要變得更加更加強大</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">11</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">僕が僕でいられるように</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">讓我可以依然是我</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">12</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">素晴らしき世界は今日も安泰 街に渦巻く悪い話も</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">美好的世界今天也國泰民安 街上打轉的壞消息</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">13</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">知らない知らないフリして目を逸らした</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">也裝出我不知道我不知道的別過眼</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">14</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">正気の沙汰じゃないな</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">真是瘋了啊</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">15</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">真面目に着飾った行進</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">認真盛裝打扮的遊行</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">16</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">鳴らす足音が弾む行き先は</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">發出回音的腳步聲所前往的地方</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">17</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">消えない消えない味が染み付いている</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">是沾染上消不去消不去味道的</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">18</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">裏側の世界</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">黑幕世界</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">19</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">清く正しく生きること</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">清白正確的活著</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">20</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">誰も悲しませずに生きること</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">不會讓誰悲傷的活著</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">21</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">はみ出さず真っ直ぐに生きること</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">不走偏路正直的活著</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">22</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">それが間違わないで生きること?</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">這些就是所謂沒有錯誤的活著?</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">23</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">ありのまま生きることが正義か</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">以真實的樣子活著是正義嗎</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">24</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">騙し騙し生きるのは正義か</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">滿是欺騙的活著是正義嗎</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">25</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">僕の在るべき姿とはなんだ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">我該有的樣貌是怎樣</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">26</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">本当の僕は何者なんだ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">真正的我又到底是誰呢</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">27</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">教えてくれよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">告訴我啊</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">28</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">教えてくれよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">告訴我啊</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">29</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">今日も 答えのない世界の中で</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">今天也在 沒有答案的世界中</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">30</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">願ってるんだよ 不器用だけれど</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">祈禱了喔 即使是笨拙的我</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">31</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">いつまでも君とただ 笑っていたいから</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">也想永遠和你 一起笑著</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">32</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">跳ねる心臓が 体揺らし叫ぶんだよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">跳動的心臟 晃動身體發出大喊</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">33</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">今こそ動き出せ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">就是現在動起來吧</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">34</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">弱い自分を何度でもずっと 喰らい尽くす</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">吞食軟弱的自己 無論多少次都不要殘留</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">35</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">この間違いだらけの世界の中 君には笑ってほしいから</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">因為在這個錯漏百出的世界 我只希望你能露出笑容</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">36</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">もう誰も泣かないよう 強く強くなりたいんだよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">已經不想再讓誰哭泣 想要變得更加更加強大</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">37</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">僕が僕でいられるように</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">讓我可以依然是我</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">38</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">ただ君を守るそのために</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">只為了守護你</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">39</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">走る走る走るんだよ</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">我不斷跑著跑著跑著</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="lyrics-s">
+                    <p class="Numerical-order">40</p>
+                    <div class="text">
+                        <div>
+                            <p class="j-text">僕の中の僕を超える</p>
+                            <i class="fa-solid fa-play pa"></i>
+                        </div>
+                        <div>
+                            <p class="c-text">去超越在我之中的我</p>
+                            <i class="fa-solid fa-arrows-rotate re click2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右側欄 -->
+        <div class="side">
+            <a href="./ドライフラワー.html">
+                <div class="side-1">
+                    <img src="../img/music/Creepy Nuts-Bling-Bang-Bang-Born.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Bling-Bang-Bang-Born</h3>
+                        <p>Creepy Nuts</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/tuki-愛の賞味期限.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>愛の賞味期限</h3>
+                        <p>tuki</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/RADWIMPS-前前前世.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>前前前世</h3>
+                        <p>RADWIMPS</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/米津玄師-Lemon.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Lemon</h3>
+                        <p>米津玄師</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/Yoasobi-Idol.png" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Idol</h3>
+                        <p>Yoasobi</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/米津玄師-灰色と青.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>灰色と青</h3>
+                        <p>米津玄師</p>
+                    </div>
+                </div>
+            </a>
+            <a href="./晚餐歌.html">
+                <div class="side-1">
+                    <img src="../img/music/tuki-晚餐歌.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>晚餐歌</h3>
+                        <p>tuki</p>
+                    </div>
+                </div>
+            </a>
+            <a href="./Pretender.html">
+                <div class="side-1">
+                    <img src="../img/music/Official髭男dism-Pretender.jpg alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Pretender</h3>
+                        <p>Official髭男dism</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/Kocchi no Kento-はいよろこんで.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>はいよろこんで</h3>
+                        <p>Kocchi no Kento</p>
+                    </div>
+                </div>
+            </a>
+            <!-- 複製區塊 -->
+            <a href="./ドライフラワー.html">
+                <div class="side-1">
+                    <img src="../img/music/Creepy Nuts-Bling-Bang-Bang-Born.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Bling-Bang-Bang-Born</h3>
+                        <p>Creepy Nuts</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/tuki-愛の賞味期限.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>愛の賞味期限</h3>
+                        <p>tuki</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/RADWIMPS-前前前世.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>前前前世</h3>
+                        <p>RADWIMPS</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/米津玄師-Lemon.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Lemon</h3>
+                        <p>米津玄師</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/Yoasobi-Idol.png" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Idol</h3>
+                        <p>Yoasobi</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/米津玄師-灰色と青.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>灰色と青</h3>
+                        <p>米津玄師</p>
+                    </div>
+                </div>
+            </a>
+            <a href="./晚餐歌.html">
+                <div class="side-1">
+                    <img src="../img/music/tuki-晚餐歌.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>晚餐歌</h3>
+                        <p>tuki</p>
+                    </div>
+                </div>
+            </a>
+            <a href="./Pretender.html">
+                <div class="side-1">
+                    <img src="../img/music/Official髭男dism-Pretender.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>Pretender</h3>
+                        <p>Official髭男dism</p>
+                    </div>
+                </div>
+            </a>
+            <a href="">
+                <div class="side-1">
+                    <img src="../img/music/Kocchi no Kento-はいよろこんで.jpg" alt="">
+                    <div style="padding-top: 15px;">
+                        <h3>はいよろこんで</h3>
+                        <p>Kocchi no Kento</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div style="height: 100px;"></div>
+    <!-- 登入視窗 -->
+    <div id="customBackdrop" class="custom-backdrop">
+        <div id="customModal" class="custom-modal2">
+            <button class="close-btn" id="closeModalBtn">&times;</button>
+            <h2>登入</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username">使用者名稱：</label>
+                    <input type="text" id="username" class="form-control" placeholder="請輸入使用者名稱">
+                </div>
+                <div class="mb-3">
+                    <label for="password">密碼：</label>
+                    <input type="password" id="password" class="form-control" placeholder="請輸入密碼">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="submitLogin()">登入</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 登入視窗結束 -->
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-left">
+                <button class="like-btn">
+                    <i class="fa-solid fa-thumbs-up"></i> 4.8
+                </button>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">首頁</a></li>
+                <li><a href="#">訊息公告</a></li>
+                <li><a href="#">會員問題</a></li>
+                <li><a href="#">錯誤回報</a></li>
+                <li><a href="#">舉報歌曲</a></li>
+                <li><a href="#">隱私條款聲明</a></li>
+                <li><a href="#">支援本站</a></li>
+            </ul>
+            <div class="footer-right">
+                <img src="../img/icon/logo.png" alt="Positive" class="positive-icon">
+            </div>
+        </div>
+        <div class="footer-middle">
+            <a href="#" class="scroll-top-btn">
+                <i class="fa-solid fa-angle-up"></i>
+            </a>
+        </div>
+        <div class="footer-bottom">
+            © 2025 ChInPen All Rights Reserved.
+        </div>
+    </footer>
+    <!-- 頁尾結束 -->
+</body>
+
+
+<script>
+
+    const video = document.getElementById('videoPlayer');
+    video.volume = 0.1;
+
+    video.addEventListener('click', function () {
+        let videoIndex = lyricsData.findIndex(function (item) {
+            return video.currentTime >= item.start && video.currentTime <= item.end;
+        })
+        if (video.paused) {
+            video.play();
+        } else {
+            if (repeat === -1) {
+                video.pause()
+            }
+            if (repeat === videoIndex) {
+                repeat = -1
+                group1[videoIndex].classList.remove('click');
+                btrepeat.classList.remove('click')
+            }
+        }
+    });
+    const lyricsData = [
+        { start: 2.378, end: 7.966 },
+        { start: 7.966, end: 11.719 },
+        { start: 11.719, end: 14.263 },
+        { start: 14.263, end: 18.96 },
+        { start: 18.96, end: 23.980 },
+        { start: 23.980, end: 30.611 },
+        { start: 30.611, end: 36.199},
+        { start: 36.119, end: 40.828 },
+        { start: 40.828, end: 47.751 },
+        { start: 47.751, end: 52.964 },//10
+        { start: 52.964, end: 65 },
+        { start: 65, end: 70.604 },
+        { start: 70.604, end: 74.733 },
+        { start: 74.733, end: 76.526 },
+        { start: 76.526, end: 79.153 },
+        { start: 79.153, end: 81.864 },
+        { start: 81.864, end: 85.200 },
+        { start: 85.200, end: 90 },
+        { start: 98.90, end: 101.214 },
+        { start: 101.214, end: 103.800 },//20
+        { start: 103.800, end: 106.719 },
+        { start: 106.719, end: 109.597 },
+        { start: 109.597, end: 112.516 },
+        { start: 112.516, end: 115.143 },
+        { start: 115.143, end: 118.021 },
+        { start: 118.021, end: 120.690 },
+        { start: 120.690, end: 122.858 },
+        { start: 126.236, end: 128.447 },
+        { start: 131.283, end: 135.578 },
+        { start: 135.578, end: 138.914 },//30
+        { start: 138.914, end: 144.3 },
+        { start: 144.3, end: 148.923 },
+        { start: 148.923, end: 151.592 },
+        { start: 151.593, end: 156.513 },
+        { start: 156.513, end: 163.728 },
+        { start: 163.728, end: 168.732 },
+        { start: 168.732, end: 175.404 },
+        { start: 181.786, end: 186.122 },
+        { start: 186.122, end: 188.458 },
+        { start: 188.458, end: 191.877 }
+        // {start: , end: , text:""},
+    ];
+
+
+    const jTextElements = document.querySelectorAll('.j-text');
+    const subtitleDiv = document.getElementById('subtitle');
+    const lyricElements = document.querySelectorAll('#lyrics .Numerical-order');
+    const textElements = document.querySelectorAll('#lyrics .text');
+    const textplay = document.querySelectorAll('.pa')
+
+    const subtitleDiv2 = document.getElementById('subtitle2')
+
+    const cTextElements = document.querySelectorAll('.c-text')
+
+    window.onload = () => {
+        video.addEventListener('timeupdate', function () {//"timeupdate"是HTML預設為影片的時間軸事件
+
+            lyricElements.forEach((el, index) => {
+                const lyric = lyricsData[index];
+                if (lyric && video.currentTime >= lyric.start && video.currentTime < lyric.end) {
+                    el.classList.add('active');
+                    textElements[index].classList.add('active-1');
+                    textplay[index].classList.add('click')
+                } else {
+                    el.classList.remove('active');
+                    textElements[index].classList.remove('active-1');
+                    textplay[index].classList.remove('click')
+                }
+                if (video.paused) {
+                    allclick()
+                }
+            });
+
+
+            const currentIndex = lyricsData.findIndex(function (item) {
+                return video.currentTime >= item.start && video.currentTime < item.end;
+            });
+            if (currentIndex !== -1) {
+                playvideo = currentIndex;
+            }
+            if (currentIndex === -1) {
+                subtitleDiv.innerHTML = '';
+                subtitleDiv2.innerHTML = '';
+            }
+            if (currentIndex != -1) {
+                const clonedElement = jTextElements[currentIndex].cloneNode(true);
+                const clonedElement2 = cTextElements[currentIndex].cloneNode(true);
+                subtitleDiv.innerHTML = '';
+                subtitleDiv2.innerHTML = '';
+                subtitleDiv.appendChild(clonedElement);
+                subtitleDiv2.appendChild(clonedElement2);
+            }
+
+            if (repeat >= 0) {
+                let lyricsSec = lyricsData[repeat];
+                if (video.currentTime > lyricsSec.end) {
+                    video.currentTime = lyricsSec.start;
+                }
+                video.play()
+            }
+        })
+    }
+    const group1 = document.querySelectorAll('.re');
+    const group2 = document.querySelectorAll('.pa')
+    const btleft = document.querySelector('.btleft>i')
+    const btstop = document.querySelector('.btstop>i')
+    const btright = document.querySelector('.btright>i')
+    const btrepeat = document.querySelector('.btrepeat>i')
+
+    function allclick() {
+        group1.forEach(e => e.classList.remove('click'));
+        group2.forEach(e => e.classList.remove('click'));
+    }
+
+
+    let playvideo = -1;
+    let repeat = -1;
+    group1.forEach((el, index) => {
+        el.addEventListener('click', function () {
+            // 影片處於暫停狀態
+            if (video.paused) {
+                playvideo = index;
+                repeat = index;
+                group1.forEach(e => e.classList.remove('click'));
+                group1.forEach(e => e.classList.add('click2'));
+                group1?.[index]?.classList.remove('click2');
+                group1?.[index]?.classList.add('click');
+                btrepeat.classList.add('click');
+                btrepeat.classList.remove('click2');
+                video.currentTime = lyricsData[index].start;
+                video.play();
+                return;
+            }
+
+            // 當影片正在播放
+            if (playvideo !== index) {
+                playvideo = index;
+                repeat = index;
+                group1.forEach(e => e.classList.add('click2'));
+                group1.forEach(e => e.classList.remove('click'));
+                group1?.[index]?.classList.remove('click2');
+                group1?.[index]?.classList.add('click');
+                btrepeat.classList.add('click');
+                btrepeat.classList.remove('click2');
+                video.currentTime = lyricsData[index].start;
+                video.play();
+            } else {
+                if (repeat === index) {
+                    repeat = -1;
+                    el.classList.remove('click');
+                    btrepeat.classList.remove('click');
+                    group1?.[index]?.classList.add('click2');
+                    btrepeat.classList.add('click2');
+                } else {
+                    repeat = index;
+                    el.classList.add('click');
+                    btrepeat.classList.add('click');
+                    group1?.[index]?.classList.remove('click2');
+                    btrepeat.classList.remove('click2');
+                }
+            }
+        });
+    });
+
+
+    group2.forEach((el, index) => {
+        el.addEventListener('click', function () {
+            if (playvideo === index && repeat !== -1) {
+                repeat = -1;
+                btrepeat.classList.remove('click');
+                group1.forEach(e => e.classList.remove('click'));
+                video.play()
+            }
+            if (playvideo !== index) {
+                repeat = -1
+                btrepeat.classList.remove('click');
+                group1.forEach(e => e.classList.remove('click'));
+                playvideo = index;
+                video.currentTime = lyricsData[index].start;
+                video.play();
+            } else {
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            }
+        });
+    });
+
+    // 歌詞的重複播放
+    btrepeat.addEventListener('click', function () {
+        let videoIndex = lyricsData.findIndex(function (item) {
+            return video.currentTime >= item.start && video.currentTime < item.end;
+        });
+        // 處於重複播放狀態
+        if (videoIndex !== -1 && repeat === videoIndex) {
+            // 取消重複播放
+            repeat = -1;
+            // 把歌詞重複播放按鈕當下移除黑色click
+            group1.forEach(e => e.classList.remove('click'))
+            // 把歌詞重複播放按鈕全部增加hover
+            group1.forEach(e => e.classList.add('click2'))
+            // 把影片重複播放按鈕移除黑色click
+            btrepeat.classList.remove('click');
+            // 把影片重複播放按鈕增加hover
+            btrepeat.classList.add('click2');
+            // 不是重複播放狀態
+        } else {
+            // 變成重複播放
+            repeat = videoIndex;
+            // 先讓所有歌詞重複播放按鈕增加hover
+            group1.forEach(e => e.classList.add('click2'))
+            // 在移除當下按鈕的hover
+            group1[videoIndex].classList.remove('click2')
+            // 讓歌詞重複播放按鈕增加黑色click
+            group1?.[videoIndex]?.classList.add('click');
+            // 讓影片重複播放移除hover
+            btrepeat.classList.remove('click2');
+            // 讓影片重複播放按鈕增加黑色
+            btrepeat.classList.add('click');
+            if (video.paused) {
+                video.play();
+            }
+        }
+    });
+
+    btright.addEventListener('click', function () {
+        let videoIndex = lyricsData.findIndex(function (item) {
+            //判斷每個內容是否有符合在當前影片的時間內，如果有會回傳當前陣列的索引值，沒有則回傳-1
+            return video.currentTime >= item.start && video.currentTime < item.end;
+        });
+        if (videoIndex === repeat) {
+            repeat = -1
+            btrepeat.classList.remove('click')
+            group1.forEach(el => el.classList.remove('click'));
+
+        }
+        if (videoIndex === -1) {
+            videoIndex = 0
+        } else {
+            videoIndex += 1
+        }
+        if (videoIndex >= lyricsData.length) {
+            videoIndex = lyricsData.length - 1
+        }
+        video.currentTime = lyricsData[videoIndex].start
+        video.play()
+    })
+    btstop.addEventListener('click', function () {
+        let videoIndex = lyricsData.findIndex(function (item) {
+            return video.currentTime >= item.start && video.currentTime < item.end;
+        })
+        if (videoIndex === repeat) {
+            repeat = -1;
+            btrepeat.classList.remove('click');
+            group1.forEach(el => el.classList.remove('click'));
+        }
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    })
+
+    btleft.addEventListener('click', function () {
+        let videoIndex = lyricsData.findIndex(function (item) {
+            //判斷每個內容是否有符合在當前影片的時間內，如果有會回傳當前陣列的索引值，沒有則回傳-1
+            return video.currentTime >= item.start && video.currentTime < item.end;
+        });
+        if (videoIndex === repeat) {
+            repeat = -1
+            btrepeat.classList.remove('click')
+            group1.forEach(el => el.classList.remove('click'));
+        }
+
+        if (videoIndex === -1) {
+            videoIndex = 0
+        } else {
+            videoIndex -= 1
+        }
+        if (videoIndex < 0) {
+            videoIndex = 0;
+        }
+        video.currentTime = lyricsData[videoIndex].start
+        video.play()
+    });
+    // w3 schoole-----------------------------
+    var modal1 = document.getElementById("myModal1");
+    var btn = document.getElementById("myBtn");
+    btn.onclick = function () {
+        modal1.style.display = "block";
+    }
+
+    // 複製---------------------------
+    var modal2 = document.getElementById('myModal2')
+    var btn2 = document.getElementById("myBtn2");
+
+    btn2.onclick = function () {
+        modal2.style.display = "block";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal1) {
+            modal1.style.display = "none";
+        } else if (event.target == modal2) {
+            modal2.style.display = "none";
+        }
+    }
+    // w3結束------------------
+
+    // 登入視窗
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const openModalBtn = document.getElementById('openModalBtn');
+        const customBackdrop = document.getElementById('customBackdrop');
+        const customModal = document.getElementById('customModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        openModalBtn.addEventListener('click', function () {
+            customBackdrop.classList.add('active');
+            customModal.classList.add('active');
+        });
+
+        closeModalBtn.addEventListener('click', function () {
+            customBackdrop.classList.remove('active');
+            customModal.classList.remove('active');
+        });
+
+        customBackdrop.addEventListener('click', function (e) {
+            if (e.target === customBackdrop) {
+                customBackdrop.classList.remove('active');
+                customModal.classList.remove('active');
+            }
+        });
+    });
+
+    function submitLogin() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        console.log("使用者名稱：", username, "密碼：", password);
+        document.getElementById('customBackdrop').classList.remove('active');
+        document.getElementById('customModal').classList.remove('active');
+    }
+    // 登入結束
+
+    // 打亂右側欄歌曲
+    document.addEventListener("DOMContentLoaded", function () {
+        const sideContainer = document.querySelector('.side');
+        if (!sideContainer) return;
+        const cards = Array.from(sideContainer.children);
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        sideContainer.innerHTML = "";
+        cards.forEach(card => sideContainer.appendChild(card));
+    });
+    // 打亂結束
+</script>
+
+</html>
