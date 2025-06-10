@@ -1,7 +1,8 @@
 <?php
+session_start();
 // 檢查是否已登入
 if (!isset($_SESSION['user'])) {
-  header("Location: ./主頁(請開啟).html");
+  header("Location: ../index.html");
   exit();
 }
 $user = $_SESSION['user']

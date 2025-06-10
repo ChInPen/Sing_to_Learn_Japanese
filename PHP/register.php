@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'chinpen';
+$dbname = 'sing_to_learn_japanese';
 $user = 'root';
 
 $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
@@ -32,5 +32,5 @@ $_SESSION['user'] = [
     "email" => $email_2
 ];
 
-header("Location: ../主頁(請開啟).html");
+header("Location: ../index.html");
 exit();
