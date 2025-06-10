@@ -15,16 +15,14 @@ $confirm_password = $_POST['confirm_password']; // 確認密碼
 // 檢查 email 是否已註冊
 $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->execute([$email_2]);
-
-
+if ($stmt->fetch()) {
+    die("此 email 已被註冊");
+}
 $sql = "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)";
-
 $stmt = $db->prepare($sql);
 $stmt->execute([$username, $email_2, $password_2]);
-
 // 取得新使用者的 ID
 $uid = $db->lastInsertId();
-
 // 設定 session
 $_SESSION['user'] = [
     "id" => $uid,

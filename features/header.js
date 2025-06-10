@@ -73,7 +73,7 @@ function verify(event) {
     return;
   }
 
-  fetch("PHP/register.php", {
+  fetch("php/register.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"

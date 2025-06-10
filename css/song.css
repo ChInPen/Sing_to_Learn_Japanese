@@ -1,0 +1,757 @@
+ html {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+            width: 100%;
+            background-color: #F0F4F8;
+        }
+
+        /* 主內容攔 */
+        .page-layout {
+            display: flex;
+            width: 100%;
+            align-items: flex-start;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* 主要內容區 */
+        .content {
+            flex: 14;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0px 50px 50px 50px ;
+        }
+
+        /* 歌曲介紹 */
+        .explain {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            color: #333333;
+            border: 1px solid black;
+            font-size: 30px;
+        }
+
+        /* 影片容器 */
+        .video-container {
+            position: relative;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 影片樣式 */
+        .video-container video {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 影片浮動字幕樣式 */
+        #subtitle .j-text {
+            pointer-events: none;
+            position: absolute;
+            bottom: 15px;
+            text-align: center;
+            justify-content: center;
+            font-size: 35px;
+            color: white;
+            border-radius: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        #subtitle2 .c-text {
+            pointer-events: none;
+            position: absolute;
+            top: 30px;
+            text-align: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            border-radius: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        #subtitle ruby {
+            display: inline-block;
+            position: relative;
+        }
+
+        #subtitle rt {
+            font-size: 0.5em;
+            color: #ffffffee;
+            font-weight: normal;
+            position: absolute;
+            top: -1.2em;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+
+
+        /* 歌詞區塊 */
+        #lyrics {
+            display: block;
+            align-items: flex-start;
+            width: 90%;
+        }
+
+        .lyrics-s {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            text-align: left;
+            height: 140px;
+            margin-top: 50px;
+        }
+
+        /* 歌詞順序 */
+        .Numerical-order {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            background-color: #FFD43B;
+            border-radius: 50%;
+            font-size: 45px;
+            font-weight: bold;
+            margin: auto;
+            margin-right: 10px;
+            color: #FFFFFF;
+        }
+
+
+        /* 歌詞 */
+        .text {
+            overflow: hidden;
+            padding: 10px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            color: #333333;
+        }
+
+        .c-text {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #00BFAE;
+            width: 80%;
+        }
+
+        .j-text {
+            display: flex;
+            font-size: 35px;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .text>div {
+            display: flex;
+        }
+
+        /* 焦點變色 */
+        .Numerical-order.active {
+            color: #ffffff;
+            background-color: #003366;
+        }
+
+        .text.active-1 {
+            background-color: #E0E0E0;
+        }
+
+
+        /* 重複播放按鈕 */
+        .re {
+            color: #FFD43B;
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+
+        }
+
+        /* 撥放按鈕 */
+        .pa {
+            color: #FFD43B;
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+
+        }
+
+        .re,
+        .pa {
+            max-width: 50px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* 影片按鈕 */
+        #icons {
+            display: flex;
+            font-size: 70px;
+            gap: 10px;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin-top: 10px;
+            padding: 10px;
+            color: #FFD43B;
+        }
+
+        /* 左側內容攔 */
+        .side {
+            flex: 3;
+            padding: 0px 5px;
+            padding-top: 5px;
+            padding-right: 1%;
+        }
+
+        .side-1 {
+            display: flex;
+            background-color: #ECF0F1;
+            border-bottom: 1px solid black;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .side-1:hover {
+            background-color: black;
+            color: aliceblue;
+
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .side img {
+            width: 30%;
+            margin: 10px;
+        }
+
+        a img {
+            width: 30%;
+            margin: 10px;
+        }
+
+        ruby {
+            display: inline-block;
+            position: relative;
+        }
+
+        rt {
+            font-size: 0.5em;
+            color: #484747;
+            font-weight: normal;
+            position: absolute;
+            top: -1em;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .click {
+            color: #333333
+        }
+
+        @media(max-width:500px) {
+            .content {
+                flex: 1;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 0.2;
+            }
+
+            .c-text {
+                font-size: 10px;
+                margin-bottom: 0px;
+            }
+
+            .j-text {
+                font-size: 10px;
+                margin-top: 18px;
+            }
+
+            .Numerical-order {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+
+            .lyrics-s {
+                margin-top: 5px;
+                height: 100px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 10px;
+            }
+
+            .explain>h1 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 20px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+        }
+
+        @media(min-width: 500px) and (max-width: 900px) {
+            .content {
+                flex: content;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 0.5;
+            }
+
+            .c-text {
+                font-size: 10px;
+                margin-bottom: 0px;
+                margin-left: 10px;
+            }
+
+            .j-text {
+                font-size: 13px;
+                margin-top: 18px;
+                margin-left: 10px;
+            }
+
+            .Numerical-order {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+
+            .lyrics-s {
+                margin-top: 5px;
+                height: 100px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 10px;
+            }
+
+            .explain>h1 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 20px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+        }
+
+        @media(min-width: 900px) and (max-width: 1400px) {
+            .content {
+                flex: content;
+                padding: 0px;
+            }
+
+            .side {
+                display: none;
+            }
+
+            .rt {
+                font-size: 1px;
+            }
+
+            .c-text {
+                font-size: 20px;
+                margin-bottom: 15px;
+                margin-left: 15px;
+            }
+
+            .j-text {
+                font-size: 22px;
+                margin-top: 20px;
+                margin-left: 15px;
+            }
+
+            .Numerical-order {
+                width: 45px;
+                height: 45px;
+                font-size: 30px;
+            }
+
+            .lyrics-s {
+                margin-top: 30px;
+                height: 120px;
+            }
+
+            .text {
+                padding: 0px;
+                border-radius: 10px;
+            }
+
+            .explain {
+                font-size: 15px;
+            }
+
+            .explain>h1 {
+                font-size: 25px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 20px !important;
+                margin-top: 5px;
+            }
+
+            #icons {
+                font-size: 40px;
+            }
+
+            .re {
+                font-size: 30px;
+                padding: 8px;
+            }
+
+
+            .pa {
+                font-size: 30px;
+                padding: 10px;
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 20px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 20px;
+                border-radius: 5px;
+            }
+
+        }
+
+        @media(min-width: 1400px) and (max-width: 1600px) {
+            .c-text {
+                font-size: 25px;
+                margin-bottom: 15px;
+                margin-left: 15px;
+            }
+
+            .j-text {
+                font-size: 27px;
+                margin-top: 20px;
+                margin-left: 15px;
+            }
+
+            .explain {
+                font-size: 15px;
+            }
+
+            .explain>h1 {
+                font-size: 35px !important;
+                margin-top: 5px;
+            }
+
+            .explain>h4 {
+                font-size: 30px !important;
+                margin-top: 5px;
+            }
+
+            .side-1 {
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+
+            div>h3 {
+                font-size: 20px
+            }
+
+            #subtitle .j-text {
+                bottom: 5px;
+                font-size: 30px;
+                border-radius: 5px;
+            }
+
+            #subtitle2 .c-text {
+                top: 10px;
+                font-size: 30px;
+                border-radius: 5px;
+            }
+        }
+
+        /* 頁尾 */
+        .footer {
+            background-color: #2f3a45;
+            color: #fff;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .like-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .like-btn:hover {
+            background: #fff;
+            color: #2f3a45;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-links li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links li a:hover {
+            color: #ffd700;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .positive-icon {
+            width: 80px;
+            height: auto;
+        }
+
+        .footer-middle {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .scroll-top-btn {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #fff;
+            color: #2f3a45;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #ffd700;
+            color: #2f3a45;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #444;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        /* 頁尾結束 */
+
+        /* w3school 彈跳視窗 */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        /* w3結束 */
+
+
+        /* 登入按鈕 */
+        .custom-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+        }
+
+        /* 自訂 Modal 內容 */
+        .custom-modal2 {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* 顯示時 */
+        .custom-backdrop.active {
+            display: flex;
+        }
+
+        .custom-modal2.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 關閉按鈕 */
+        .custom-modal2 .close-btn {
+            float: right;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* 登入按鈕結束 */
+        .btstop:hover,
+        .btright:hover,
+        .btleft:hover,
+        .pa:hover {
+            cursor: pointer;
+            color: #00BFAE;
+        }
+
+        .btrepeat {
+            cursor: pointer;
+        }
+
+        .click2:hover {
+            color: #00BFAE;
+        }

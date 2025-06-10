@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION['user'])) {
+  header("Location: ./php/welcome.php");
+  exit();
+}
+// $user = $_SESSION['user']
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
