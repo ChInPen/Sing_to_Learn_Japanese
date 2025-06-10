@@ -18,9 +18,10 @@ $stmt->execute([$email_2]);
 if ($stmt->fetch()) {
     die("此 email 已被註冊");
 }
+$hashed_password = password_hash($password_2, PASSWORD_DEFAULT);
 $sql = "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)";
 $stmt = $db->prepare($sql);
-$stmt->execute([$username, $email_2, $password_2]);
+$stmt->execute([$username, $email_2, $hashed_password]);
 // 取得新使用者的 ID
 $uid = $db->lastInsertId();
 // 設定 session

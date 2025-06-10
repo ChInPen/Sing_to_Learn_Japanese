@@ -53,6 +53,7 @@ showLogin?.addEventListener('click', (e) => {
   loginForm.style.display = 'block';
   registerForm.style.display = 'none';
 });
+
 function verify(event) {
   event.preventDefault();
   const Username = document.getElementById("Username");
@@ -88,3 +89,77 @@ function verify(event) {
     })
     .catch(error => console.error("發生錯誤:", error));
 }
+function handleLogin(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  const openModalBtn = document.getElementById("openModalBtn")
+  const outModalBtn = document.getElementById("outModalBtn")
+  const customBackdrop = document.getElementById("customBackdrop")
+  if (!email || !password) {
+    alert("請輸入帳號與密碼！");
+    return;
+  }
+
+  fetch("php/login.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email, password })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("登入成功！");
+        openModalBtn.style.display = "none"
+        outModalBtn.style.display = "block"
+        customBackdrop.classList.remove('active');
+      } else {
+        alert(data.message || "登入失敗");
+      }
+    })
+    .catch(err => {
+      console.error("登入錯誤：", err);
+      alert("伺服器錯誤，請稍後再試");
+    });
+}
+// 登出
+const outModalBtn = document.getElementById("outModalBtn")
+outModalBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  fetch("php/logout.php", {
+    method: "POST",
+    credentials: "include"
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert("登出成功！");
+        location.reload();
+      } else {
+        alert("登出失敗：" + data.message);
+      }
+    })
+    .catch(error => {
+      console.error("登出錯誤：", error);
+      alert("伺服器錯誤，請稍後再試");
+    });
+
+})
+fetch("php/check_login.php", {
+  method: "GET",
+  credentials: "include"
+})
+  .then(response => response.json())
+  .then(data => {
+    if (data.loggedIn) {
+      console.log("使用者已登入:", data.user);
+      openModalBtn.style.display = "none"
+      outModalBtn.style.display = "block"
+    } else {
+      console.log("使用者未登入");
+    }
+  })
+  .catch(error => console.error("檢查登入狀態錯誤：", error));
+

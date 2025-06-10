@@ -1,9 +1,8 @@
 <?php
-session_start();
-// 個別刪除session
-//unset($_SESSION['user']);
-// 全部刪除session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 session_destroy();
-// 結束後跳轉到login.html
-header('Location:../index.php');
+echo json_encode(["success" => true, "message" => "登出成功"]);
+exit();
 ?>

@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Bootstrap/bootstrap-5.0.0-dist/css/bootstrap.css">
-    <script src="../Bootstrap/bootstrap-5.0.0-dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="./Bootstrap/bootstrap-5.0.0-dist/css/bootstrap.css">
+    <script src="./Bootstrap/bootstrap-5.0.0-dist/js/bootstrap.bundle.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/song.css">
+    <link rel="stylesheet" href="./css/song.css">
+    <link rel="stylesheet" href="./css/login.css">
     <title>Pretender</title>
 </head>
 
 <body>
+    <!-- header -->
+    <div id="header-placeholder"></div>
     <!-- 主內容區域 -->
     <div class="page-layout">
         <!-- 主要內容 -->
@@ -19,7 +22,7 @@
             <!-- 影片跟字幕 -->
             <div class="video-container">
                 <video controls loop controlslist="nodownload nofullscreen noremoteplayback" id="videoPlayer">
-                    <source src="../video/Official髭男dism - Pretender［Official Video］.mp4">
+                    <source src="./video/Official髭男dism - Pretender［Official Video］.mp4">
                 </video>
                 <div id="subtitle"></div>
                 <div id="subtitle2" style="display: flex;"></div>
@@ -734,7 +737,11 @@
                 </div>
             </div>
         </div>
-
+    </div>
+    <!-- footer -->
+    <div id="footer-placeholder"></div>
+    <!-- 插入header跟footer -->
+    <script src="./features/loadHeaderFooter.js"></script>
 </body>
 
 
@@ -804,7 +811,7 @@
         // {start: , end: , text:""},
     ];
 
-    
+
     const jTextElements = document.querySelectorAll('.j-text');
     const subtitleDiv = document.getElementById('subtitle');
     const lyricElements = document.querySelectorAll('#lyrics .Numerical-order');
@@ -876,16 +883,16 @@
     }
 
 
-    let playvideo = -1; 
+    let playvideo = -1;
     let repeat = -1;
     group1.forEach((el, index) => {
         el.addEventListener('click', function () {
             // 影片處於暫停狀態
             if (video.paused) {
                 playvideo = index;
-                repeat = index; 
+                repeat = index;
                 group1.forEach(e => e.classList.remove('click'));
-                group1.forEach(e => e.classList.add('click2')); 
+                group1.forEach(e => e.classList.add('click2'));
                 group1?.[index]?.classList.remove('click2');
                 group1?.[index]?.classList.add('click');
                 btrepeat.classList.add('click');
@@ -961,9 +968,9 @@
             // 取消重複播放
             repeat = -1;
             // 把歌詞重複播放按鈕當下移除黑色click
-            group1.forEach(e=>e.classList.remove('click'))
+            group1.forEach(e => e.classList.remove('click'))
             // 把歌詞重複播放按鈕全部增加hover
-            group1.forEach(e=>e.classList.add('click2'))
+            group1.forEach(e => e.classList.add('click2'))
             // 把影片重複播放按鈕移除黑色click
             btrepeat.classList.remove('click');
             // 把影片重複播放按鈕增加hover
@@ -973,7 +980,7 @@
             // 變成重複播放
             repeat = videoIndex;
             // 先讓所有歌詞重複播放按鈕增加hover
-            group1.forEach(e=>e.classList.add('click2'))
+            group1.forEach(e => e.classList.add('click2'))
             // 在移除當下按鈕的hover
             group1[videoIndex].classList.remove('click2')
             // 讓歌詞重複播放按鈕增加黑色click
@@ -1048,61 +1055,6 @@
         video.currentTime = lyricsData[videoIndex].start
         video.play()
     });
-    var modal1 = document.getElementById("myModal1");
-    var btn = document.getElementById("myBtn");
-    btn.onclick = function () {
-        modal1.style.display = "block";
-    }
-
-    var modal2 = document.getElementById('myModal2')
-    var btn2 = document.getElementById("myBtn2");
-
-    btn2.onclick = function () {
-        modal2.style.display = "block";
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modal1) {
-            modal1.style.display = "none";
-        } else if (event.target == modal2) {
-            modal2.style.display = "none";
-        }
-    }
-
-    // 登入視窗
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const openModalBtn = document.getElementById('openModalBtn');
-        const customBackdrop = document.getElementById('customBackdrop');
-        const customModal = document.getElementById('customModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-
-        openModalBtn.addEventListener('click', function () {
-            customBackdrop.classList.add('active');
-            customModal.classList.add('active');
-        });
-
-        closeModalBtn.addEventListener('click', function () {
-            customBackdrop.classList.remove('active');
-            customModal.classList.remove('active');
-        });
-
-        customBackdrop.addEventListener('click', function (e) {
-            if (e.target === customBackdrop) {
-                customBackdrop.classList.remove('active');
-                customModal.classList.remove('active');
-            }
-        });
-    });
-
-    function submitLogin() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        console.log("使用者名稱：", username, "密碼：", password);
-        document.getElementById('customBackdrop').classList.remove('active');
-        document.getElementById('customModal').classList.remove('active');
-    }
-
     // 打亂右側欄歌曲
     document.addEventListener("DOMContentLoaded", function () {
         const sideContainer = document.querySelector('.side');
