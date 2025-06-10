@@ -1,0 +1,303 @@
+    body {
+        background-color: #f8f9fa;
+    }
+
+    /* 頁尾 */
+    .footer {
+        background-color: #2f3a45;
+        color: #fff;
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .footer-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .footer-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .like-btn {
+        background: none;
+        border: 1px solid #fff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .like-btn:hover {
+        background: #fff;
+        color: #2f3a45;
+    }
+
+    .footer-links {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-links li a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer-links li a:hover {
+        color: #ffd700;
+    }
+
+    .footer-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .positive-icon {
+        width: 80px;
+        height: auto;
+    }
+
+    .footer-middle {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .scroll-top-btn {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #fff;
+        color: #2f3a45;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+    .scroll-top-btn:hover {
+        background-color: #ffd700;
+        color: #2f3a45;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        font-size: 12px;
+        border-top: 1px solid #444;
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    /* 頁尾結束 */
+
+    /* w3school 彈跳視窗 */
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        margin: 100px auto;
+        text-align: center;
+    }
+
+    /* w3結束 */
+
+
+    /* 登入按鈕 */
+    .custom-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1050;
+    }
+
+    .custom-modal2 {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* 顯示時 */
+    .custom-backdrop.active {
+        display: flex;
+    }
+
+    .custom-modal2.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .custom-modal2 .close-btn {
+        float: right;
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* 登入按鈕結束 */
+
+    /* 留言板 */
+
+    .header {
+        background-color: #39c134aa;
+        color: #fff;
+        text-align: center;
+        padding: 30px 0;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 36px;
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px 0;
+        text-align: left;
+    }
+
+    .container p {
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+
+    .feedback-form {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .feedback-form h2 {
+        margin-top: 0;
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .btn-submit {
+        background-color: #39c134aa;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background-color: #A93226;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 40px 0;
+    }
+
+    .message-board h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .table-striped {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table-striped th,
+    .table-striped td {
+        border: 1px solid #ccc;
+        text-align: center;
+        padding: 10px;
+        word-wrap: break-word;
+    }
+
+    .table-striped th {
+        background-color: #ECECEC;
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table-striped input[type="button"] {
+        background-color: #e74c3c;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .table-striped input[type="button"]:hover {
+        background-color: #c0392b;
+    }

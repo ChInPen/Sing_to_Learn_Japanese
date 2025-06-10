@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./Bootstrap/bootstrap-5.0.0-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="./Bootstrap/bootstrap-5.0.0-dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="./css/messages.css">
+  <link rel="stylesheet" href="./css/login.css">
+  <title>留言板</title>
+</head>
+
+<body>
+  <!-- header -->
+  <div id="header-placeholder"></div>
+  <!-- 留言板 -->
+  <header class="header">
+    <h1>錯誤回報與建議</h1>
+  </header>
+
+  <!-- 主要容器 -->
+  <div class="container">
+    <p>如果您在使用網站時遇到任何問題，或者有任何建議可以幫助我們改進，請聯絡我們。我們將盡快處理您反映的情況。</p>
+
+    <!-- 回饋表單區 -->
+    <div class="feedback-form">
+      <h2>回饋表單</h2>
+      <form action="" method="post" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="username">姓名</label>
+            <input type="text" id="username" name="username" placeholder="請輸入您的姓名">
+          </div>
+          <div class="form-group">
+            <label for="useremail">Email</label>
+            <input type="email" id="useremail" name="useremail" placeholder="請輸入您的 Email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="feedback">留言內容</label>
+          <textarea id="feedback" name="feedback" rows="6" placeholder="請提供以下資訊（如果可能）：
+  問題描述：簡要說明問題是什麼。
+  錯誤發生的網址：問題發生時的頁面網址。
+  建議內容：您認為可以改善的地方或新功能想法。"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" onclick="processFormData()">發布留言</button>
+      </form>
+    </div>
+    <hr>
+    <!-- 留言板區 -->
+    <div class="message-board">
+      <h2>留言板</h2>
+      <table id="Feedback_table" class="table-striped">
+        <thead>
+          <tr>
+            <th width="15%">姓名</th>
+            <th width="15%">時間</th>
+            <th width="60%">內容</th>
+            <th width="10%">刪除</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- footer -->
+  <div id="footer-placeholder"></div>
+  <!-- 插入header跟footer -->
+  <script src="./features/loadHeaderFooter.js"></script>
+</body>
+<script>
+  // 留言板
+  function processFormData() {
+    const nameElement = document.getElementById("username");
+    const emailElement = document.getElementById("useremail");
+    const feedbackElement = document.getElementById("feedback");
+
+    const name = nameElement.value.trim();
+    const email = emailElement.value.trim();
+    const feedback = feedbackElement.value.trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email 格式驗證
+
+    if (name === "") {
+      alert("請輸入您的姓名！");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      alert("請輸入有效的 Email 地址！");
+      return;
+    }
+    if (feedback === "") {
+      alert("請輸入您的留言內容！");
+      return;
+    }
+
+    alert("謝謝 " + name + " 的回饋！");
+    addMsg(name, email, feedback);
+  }
+
+  function addMsg(name, email, feedback) {
+    let table = document.getElementById("Feedback_table").getElementsByTagName("tbody")[0];
+    let newRow = table.insertRow();
+
+    let nameCell = newRow.insertCell();
+    let timeCell = newRow.insertCell();
+    let contentCell = newRow.insertCell();
+    let deleteCell = newRow.insertCell();
+
+    nameCell.innerHTML = name;
+    timeCell.innerHTML = new Date().toLocaleString();
+    contentCell.innerHTML = feedback;
+    deleteCell.innerHTML = '<input type="button" value="Delete" onclick="delRow(this)">';
+    document.getElementById("username").value = "";
+    document.getElementById("useremail").value = "";
+    document.getElementById("feedback").value = "";
+  }
+
+  function delRow(r) {
+    var i = r.parentNode.parentNode.rowIndex;
+    document.getElementById("Feedback_table").deleteRow(i);
+    alert("謝謝您的回饋，我們已將資訊刪除!");
+  }
+</script>
+
+</html>

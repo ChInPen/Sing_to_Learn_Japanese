@@ -56,39 +56,47 @@ showLogin?.addEventListener('click', (e) => {
 
 function verify(event) {
   event.preventDefault();
-  const Username = document.getElementById("Username");
-  const UserEmail = document.getElementById("UserEmail");
-  const registerPassword = document.getElementById("registerPassword");
-  const registerConfirmPassword = document.getElementById("registerConfirmPassword");
-  const name = Username.value.trim();
-  const email = UserEmail.value.trim();
-  const password = registerPassword.value.trim();
-  const password2 = registerConfirmPassword.value.trim();
+  const Username = document.getElementById("Username").value.trim();
+  const UserEmail = document.getElementById("UserEmail").value.trim();
+  const registerPassword = document.getElementById("registerPassword").value;
+  const registerConfirmPassword = document.getElementById("registerConfirmPassword").value;
+  const errDiv = document.getElementById("registerError");
 
-  if (!name || !email || !password || !password2) {
-    alert("請完整填寫註冊資料！");
+  if (!Username || !UserEmail || !registerPassword || !registerConfirmPassword) {
+    errDiv.textContent = "請完整填寫註冊資料！";
+    errDiv.style.display = "block";
     return;
   }
-  if (password !== password2) {
-    alert("密碼不一致!");
+  if (registerPassword !== registerConfirmPassword) {
+    errDiv.textContent = "密碼不一致！";
+    errDiv.style.display = "block";
     return;
   }
-
   fetch("php/register.php", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: `username=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+    body: `username=${encodeURIComponent(Username)}&email=${encodeURIComponent(UserEmail)}&password=${encodeURIComponent(registerPassword)}&confirm_password=${encodeURIComponent(registerConfirmPassword)}`
   })
-    .then(response => response.text())
+    .then(res => res.json())
     .then(data => {
-      alert("註冊成功");
-      document.getElementById('registerForm').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
+      if (!data.success) {
+        errDiv.textContent = data.error;
+        errDiv.style.display = "block";
+      } else {
+        alert("註冊成功！已自動登入");
+        location.reload();
+      }
     })
-    .catch(error => console.error("發生錯誤:", error));
+    .catch(err => {
+      console.error(err);
+      errDiv.textContent = "伺服器錯誤，請稍後再試";
+      errDiv.style.display = "block";
+    });
 }
+
 function handleLogin(event) {
   event.preventDefault();
 
@@ -104,8 +112,8 @@ function handleLogin(event) {
 
   fetch("php/login.php", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     credentials: "include",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
   })
     .then(res => res.json())

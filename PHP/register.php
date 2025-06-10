@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $host = 'localhost';
 $dbname = 'sing_to_learn_japanese';
 $user = 'root';
@@ -16,7 +19,18 @@ $confirm_password = $_POST['confirm_password']; // 確認密碼
 $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->execute([$email_2]);
 if ($stmt->fetch()) {
-    die("此 email 已被註冊");
+    echo json_encode([
+        'success' => false,
+        'error'   => '此 Email 已被註冊，請直接登入或使用其他 Email'
+    ]);
+    exit;
+}
+if ($password_2 !== $confirm_password) {
+    echo json_encode([
+        'success' => false,
+        'error'   => '密碼與確認密碼不一致'
+    ]);
+    exit;
 }
 $hashed_password = password_hash($password_2, PASSWORD_DEFAULT);
 $sql = "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)";
@@ -30,6 +44,6 @@ $_SESSION['user'] = [
     "username" => $username,
     "email" => $email_2
 ];
-
-header("Location: ../index.html");
+// 回傳成功
+echo json_encode(['success' => true]);
 exit();
