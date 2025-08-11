@@ -46,7 +46,6 @@ $_SESSION['user'] = [
     'email' => $user['email'],
     'username' => $user['username']
 ];
-
 echo json_encode([
     "success" => true,
     "message" => "登入成功",
